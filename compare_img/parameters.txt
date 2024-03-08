@@ -1,0 +1,11 @@
+basement=no,yes,yes-finished
+elevation=no,cape-cod,colonial,contemporary,cottage,craftsman
+flexRoom=no,bedroom,office,gym,library,pantry
+garageDepth=no,standard,deep,extra-deep
+garageDoorSize=no,size-1,size-2,size-3,size-4,size-5,size-6
+garageSide=no,right,left
+garageSize=no,one-car,two-car,three-car
+mirror=no,mirror-horizontally,mirror-vertically
+pool=no,yes,yes-oval,yes-olympic
+squareFootage=no,500sf,1000sf,2000sf,3000sf,5000sf
+stories=no,one,two,three

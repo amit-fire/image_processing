@@ -1,0 +1,20 @@
+scenario:
+
+node index.js --basement yes --build 0 0.png
+node index.js --basement yes --build 1 1.png
+node index.js --basement yes --build 2 2.png
+node index.js --basement yes --build 3 3.png
+node index.js --basement yes --build 4 4.png
+node index.js --basement yes --build 5 5.png
+node index.js --basement yes --build 6 6.png
+node index.js --basement yes --build 7 7.png
+
+output:
+build 1,2,3 differ from build 0
+
+build 1 contains a pool
+build 2 doesn't contain a basement
+build 3 no visible difference, but the file size is smaller
+ 
+add dir screen shot
+add outputs from the application and script

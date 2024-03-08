@@ -1,0 +1,9 @@
+{
+    "parameters_file": "full path to parameters file",
+    "program_path": "full path to index.js",
+    "test_dir": "full path to tests dir",
+    "generate_diff": true,
+    "different_parameters_every_build": false,
+    "number_of_tests": 2,
+    "versions_per_test": 4
+}

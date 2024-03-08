@@ -1,0 +1,8 @@
+{
+    "program_path": "full path to index.js",
+    "test_dir": "full path to tests dir",
+    "generate_diff": true,
+    "scenarios": [
+        "full path to scenario file"
+    ]
+}

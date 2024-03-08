@@ -1,0 +1,8 @@
+--basement yes-finished --elevation craftsman --flexRoom office --garageDepth deep --garageDoorSize size-4 --mirror mirror-horizontally --squareFootage 2000sf --stories two
+--basement yes-finished --elevation craftsman --flexRoom office --garageDepth deep --garageDoorSize size-4 --mirror mirror-horizontally --squareFootage 2000sf --stories two
+--basement yes-finished --elevation craftsman --flexRoom office --garageDepth deep --garageDoorSize size-4 --mirror mirror-horizontally --squareFootage 2000sf --stories two
+--basement yes-finished --elevation craftsman --flexRoom office --garageDepth deep --garageDoorSize size-4 --mirror mirror-horizontally --squareFootage 2000sf --stories two
+--basement yes-finished --elevation craftsman --flexRoom office --garageDepth deep --garageDoorSize size-4 --mirror mirror-horizontally --squareFootage 2000sf --stories two
+--basement yes-finished --elevation craftsman --flexRoom office --garageDepth deep --garageDoorSize size-4 --mirror mirror-horizontally --squareFootage 2000sf --stories two
+--basement yes-finished --elevation craftsman --flexRoom office --garageDepth deep --garageDoorSize size-4 --mirror mirror-horizontally --squareFootage 2000sf --stories two
+--basement yes-finished --elevation craftsman --flexRoom office --garageDepth deep --garageDoorSize size-4 --mirror mirror-horizontally --squareFootage 2000sf --stories two
