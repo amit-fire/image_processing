@@ -70,7 +70,9 @@ The script has 2 modes:
 1. determined: this means the configuration file points to scenarios files.
 The mode allows the user to control what scenarios are executed.
 
-2. combinations generation: the scripts randomly selects parameters.
+2. roubd robin: iterate over the parameters and select one value of each parameter.
+
+3. combinations generation: the scripts randomly selects parameters.
 
 After each test, the results are reported.
 Results are collected and displayed at the end of the last test.
