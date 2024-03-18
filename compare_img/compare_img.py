@@ -1,33 +1,11 @@
 from PIL import Image
 import imagehash
-import imageio
 import os
 import sys
 import shutil
-import subprocess
 import random
 import json
 import argparse
-
-def aaa():
-    print("Hello World!")
-    parser1 = argparse.ArgumentParser(
-                    prog='ProgramName',
-                    description='What the program does',
-                    epilog='Text at the bottom of help')
-
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('filename') 
-       
-   # parser.add_argument('-h', '--help')
-
-    args = parser.parse_args()
-    print(args)
-    #print(args.filename, args.count, args.verbose) 
-
-def help_msg():
-    print('Usage: python ' + os.path.basename(__file__) + ' <json_file>\nhelp:  python ' + os.path.basename(__file__) + ' -h|--help')
 
 def parse_input(input_file):
     f = open(input_file) 
@@ -48,17 +26,42 @@ def collect_parameters(parameters_file):
     return params
 
 def select_parameters(parameters):
-    res={}
+    #res={}
     cmd = ''
     for k,v in parameters.items():
         val = random.choice(v)
         if val != 'no':
-            res[k]=val
+            #res[k]=val
             cmd += '--' + k + ' ' + val + ' '
-    #print('args',res)
     return cmd
 
+previous_selection = {}
+def round_robin(parameters):
+    res={}
+    cmd = ''
+    for k,v in parameters.items():
+        if k in previous_selection:
+            i = previous_selection[k]
+            if i+1 == len(v):
+                i = 1
+            else:
+                i+=1
+        else:
+            i = 1
+        
+        previous_selection[k] = i
+        cmd += '--' + k + ' ' + v[i] + ' '
+    #print('cmd',cmd)
+    return cmd
+
+def most_parameters(values):
+    res = 0
+    for v in values:
+        res = max(res, len(v))
+    return res
+
 def execute(data):
+
     generate_diff = False
     if 'generate_diff' in data and data['generate_diff']:
         generate_diff = True
@@ -67,7 +70,12 @@ def execute(data):
         return test_determined(data['test_dir'], data['scenarios'], data['program_path'], generate_diff)
     elif os.path.isfile(data['parameters_file']):
         parameters = collect_parameters(data['parameters_file'])
-        if 'different_parameters_every_build' in data and data['different_parameters_every_build']:
+        if 'round_robin' in data and data['round_robin']:
+            number_of_tests = data['number_of_tests']
+            if number_of_tests == 0:
+                number_of_tests = most_parameters(parameters.values()) - 1 # discard 'no'
+            return test_round_robin(data['test_dir'], number_of_tests, data['versions_per_test'], parameters, data['program_path'], generate_diff)
+        elif 'different_parameters_every_build' in data and data['different_parameters_every_build']:
             return test_different_parameters(data['test_dir'], data['number_of_tests'], data['versions_per_test'], parameters, data['program_path'], generate_diff)
         else:
             return test_same_parameters(data['test_dir'], data['number_of_tests'], data['versions_per_test'], parameters, data['program_path'], generate_diff)
@@ -117,6 +125,25 @@ def run_determined(test_dir, lines, program_path, generate_diff):
             compare_and_report(img0, hash0, generate_diff, png, out, res)           
 
         i+=1
+    return res
+
+def test_round_robin(test_dir, number_of_tests, versions_per_test, parameters, program_path, generate_diff):
+    res = {}
+
+    if os.path.exists(test_dir):
+        shutil.rmtree(test_dir)
+
+    i=0
+    while i < number_of_tests:
+        selected_parameters = round_robin(parameters)
+        test = 'test-' + str(i+1)
+        run_res = run_same_parameters(os.path.join(test_dir, test), versions_per_test, program_path, selected_parameters, generate_diff)
+        res[test]=run_res     
+        print('test ' + test + ' does not match ' + str(len(run_res['no_match'])) + ' match ' + str(len(run_res['match'])))
+        print('does not match', run_res['no_match'])
+        print('match', run_res['match'])
+        i+=1
+    print('results for all tests', res)
     return res
 
 def test_same_parameters(test_dir, number_of_tests, versions_per_test, parameters, program_path, generate_diff):
@@ -199,7 +226,6 @@ def run_different_parameters(test_dir, versions_per_test, parameters, program_pa
             #print(f'build 0 {png}')
             img0 = Image.open(png)
             hash0 = imagehash.phash(img0)
-
         if i > 0:
             out = os.path.join(out_dir, str(i)+'.png')
             #print(out)
